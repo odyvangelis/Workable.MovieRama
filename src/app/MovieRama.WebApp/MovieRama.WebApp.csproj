@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
-        <Nullable>enable</Nullable>
+        <Nullable>disable</Nullable>
         <ImplicitUsings>disable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
@@ -11,6 +11,12 @@
       <Content Include="..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\lib\MovieRama.Configuration\MovieRama.Configuration.csproj" />
+      <ProjectReference Include="..\..\lib\MovieRama.Core\MovieRama.Core.csproj" />
+      <ProjectReference Include="..\..\lib\MovieRama.Domain\MovieRama.Domain.csproj" />
     </ItemGroup>
 
 </Project>

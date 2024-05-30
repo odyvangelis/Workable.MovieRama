@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\MovieRama.Core\MovieRama.Core.csproj" />
+      <ProjectReference Include="..\MovieRama.Domain\MovieRama.Domain.csproj" />
+      <ProjectReference Include="..\MovieRama.Infrastructure\MovieRama.Infrastructure.csproj" />
+    </ItemGroup>
+
+</Project>

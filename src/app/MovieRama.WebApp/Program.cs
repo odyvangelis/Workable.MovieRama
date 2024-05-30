@@ -1,11 +1,19 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
+using MovieRama.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+var config = builder.Configuration.Get<MovieRama.Config.ApplicationConfig>();
+
+builder.Services.AddSingleton(config);
+builder.Services.AddMovieRama(config);
 
 var app = builder.Build();
 

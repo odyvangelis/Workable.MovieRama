@@ -1,10 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "src\app\MovieRama.WebApp", "src\app\MovieRama.WebApp\MovieRama.WebApp.csproj", "{68ED19A8-73CF-491E-8110-35609010FB05}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9BB43E41-A96D-4E2D-95A3-95DCEC01CEEB}"
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.yml = docker-compose.yml
+		Directory.Packages.props = Directory.Packages.props
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{05984D0F-00FF-402A-AB34-C2BBF78FE100}"
@@ -15,7 +14,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{7E6ED136-26D
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{40E15108-1739-495E-8AF9-797895AFFC67}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieRama.WebApp", "src\app\MovieRama.WebApp\MovieRama.WebApp.csproj", "{68ED19A8-73CF-491E-8110-35609010FB05}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieRama.Tests", "tests\MovieRama.Tests\MovieRama.Tests.csproj", "{8463F287-2764-4E6E-AEE1-AFA97F80BCF8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieRama.Core", "src\lib\MovieRama.Core\MovieRama.Core.csproj", "{99A9245F-85DD-4BF3-A0E6-63AED709CD2E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieRama.Infrastructure", "src\lib\MovieRama.Infrastructure\MovieRama.Infrastructure.csproj", "{594BDCF9-53C9-4501-A20B-3ED132B09976}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieRama.Domain", "src\lib\MovieRama.Domain\MovieRama.Domain.csproj", "{D9609CC0-D0CA-4087-9BD2-68B71DB87365}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieRama.Configuration", "src\lib\MovieRama.Configuration\MovieRama.Configuration.csproj", "{663DD7EC-34AD-4351-835B-3FD76DDD273D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,11 +40,31 @@ Global
 		{8463F287-2764-4E6E-AEE1-AFA97F80BCF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8463F287-2764-4E6E-AEE1-AFA97F80BCF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8463F287-2764-4E6E-AEE1-AFA97F80BCF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99A9245F-85DD-4BF3-A0E6-63AED709CD2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99A9245F-85DD-4BF3-A0E6-63AED709CD2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99A9245F-85DD-4BF3-A0E6-63AED709CD2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99A9245F-85DD-4BF3-A0E6-63AED709CD2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{594BDCF9-53C9-4501-A20B-3ED132B09976}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{594BDCF9-53C9-4501-A20B-3ED132B09976}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{594BDCF9-53C9-4501-A20B-3ED132B09976}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{594BDCF9-53C9-4501-A20B-3ED132B09976}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9609CC0-D0CA-4087-9BD2-68B71DB87365}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9609CC0-D0CA-4087-9BD2-68B71DB87365}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9609CC0-D0CA-4087-9BD2-68B71DB87365}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9609CC0-D0CA-4087-9BD2-68B71DB87365}.Release|Any CPU.Build.0 = Release|Any CPU
+		{663DD7EC-34AD-4351-835B-3FD76DDD273D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{663DD7EC-34AD-4351-835B-3FD76DDD273D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{663DD7EC-34AD-4351-835B-3FD76DDD273D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{663DD7EC-34AD-4351-835B-3FD76DDD273D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{14DCC5CA-BEAF-4FE5-81C0-3FF3B07FAE47} = {05984D0F-00FF-402A-AB34-C2BBF78FE100}
 		{7E6ED136-26DD-4C68-B68F-62511ADA9DD3} = {05984D0F-00FF-402A-AB34-C2BBF78FE100}
 		{68ED19A8-73CF-491E-8110-35609010FB05} = {14DCC5CA-BEAF-4FE5-81C0-3FF3B07FAE47}
 		{8463F287-2764-4E6E-AEE1-AFA97F80BCF8} = {40E15108-1739-495E-8AF9-797895AFFC67}
+		{99A9245F-85DD-4BF3-A0E6-63AED709CD2E} = {7E6ED136-26DD-4C68-B68F-62511ADA9DD3}
+		{594BDCF9-53C9-4501-A20B-3ED132B09976} = {7E6ED136-26DD-4C68-B68F-62511ADA9DD3}
+		{D9609CC0-D0CA-4087-9BD2-68B71DB87365} = {7E6ED136-26DD-4C68-B68F-62511ADA9DD3}
+		{663DD7EC-34AD-4351-835B-3FD76DDD273D} = {7E6ED136-26DD-4C68-B68F-62511ADA9DD3}
 	EndGlobalSection
 EndGlobal

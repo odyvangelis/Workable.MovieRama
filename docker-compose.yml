@@ -1,6 +1,31 @@
-﻿services:
+﻿version: "3.9"
+services:
+  redis:
+    image: "redis:alpine"
+    restart: unless-stopped
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis:/data
+  pgsql:
+    image: postgres
+    restart: unless-stopped
+    container_name: pgsql
+    environment:
+      POSTGRES_USER: sa
+      POSTGRES_PASSWORD: apJ4D@7E(Aw2sm9T
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
   movierama.webapp:
     image: movierama.webapp
+    restart: unless-stopped
     build:
       context: .
       dockerfile: src/app/MovieRama.WebApp/Dockerfile
+
+volumes:
+  redis:
+  pgdata:

@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "src\app\MovieRama.WebApp", "src\app\MovieRama.WebApp\MovieRama.WebApp.csproj", "{68ED19A8-73CF-491E-8110-35609010FB05}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9BB43E41-A96D-4E2D-95A3-95DCEC01CEEB}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{05984D0F-00FF-402A-AB34-C2BBF78FE100}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "app", "app", "{14DCC5CA-BEAF-4FE5-81C0-3FF3B07FAE47}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{7E6ED136-26DD-4C68-B68F-62511ADA9DD3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{40E15108-1739-495E-8AF9-797895AFFC67}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieRama.Tests", "tests\MovieRama.Tests\MovieRama.Tests.csproj", "{8463F287-2764-4E6E-AEE1-AFA97F80BCF8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{68ED19A8-73CF-491E-8110-35609010FB05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68ED19A8-73CF-491E-8110-35609010FB05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68ED19A8-73CF-491E-8110-35609010FB05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68ED19A8-73CF-491E-8110-35609010FB05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8463F287-2764-4E6E-AEE1-AFA97F80BCF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8463F287-2764-4E6E-AEE1-AFA97F80BCF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8463F287-2764-4E6E-AEE1-AFA97F80BCF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8463F287-2764-4E6E-AEE1-AFA97F80BCF8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{14DCC5CA-BEAF-4FE5-81C0-3FF3B07FAE47} = {05984D0F-00FF-402A-AB34-C2BBF78FE100}
+		{7E6ED136-26DD-4C68-B68F-62511ADA9DD3} = {05984D0F-00FF-402A-AB34-C2BBF78FE100}
+		{68ED19A8-73CF-491E-8110-35609010FB05} = {14DCC5CA-BEAF-4FE5-81C0-3FF3B07FAE47}
+		{8463F287-2764-4E6E-AEE1-AFA97F80BCF8} = {40E15108-1739-495E-8AF9-797895AFFC67}
+	EndGlobalSection
+EndGlobal

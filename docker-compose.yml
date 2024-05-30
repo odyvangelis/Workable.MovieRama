@@ -1,0 +1,6 @@
+﻿services:
+  movierama.webapp:
+    image: movierama.webapp
+    build:
+      context: .
+      dockerfile: src/app/MovieRama.WebApp/Dockerfile

@@ -1,12 +1,14 @@
+using System;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using MovieRama.Configuration;
+using MovieRama.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
-
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -35,5 +37,15 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapRazorPages();
+
+using (var scope = app.Services.CreateScope())
+{
+    using (var ctx = scope.ServiceProvider.GetRequiredService<AppDbContext>())
+    {
+        ctx.Database.Migrate();
+    }
+}
 
 app.Run();

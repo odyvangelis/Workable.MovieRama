@@ -2,8 +2,10 @@ namespace MovieRama.Infrastructure.Config;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+
 using MovieRama.Data;
 using MovieRama.Config;
+using MovieRama.Entities;
 using MovieRama.Infrastructure.Data;
 
 
@@ -27,27 +29,13 @@ public static class DependencyInjection
             opts.UseNpgsql(configuration.ConnectionStrings.Database);
         });
         services.AddScoped<IRepository, AppRepository>();
+        services.AddDefaultIdentity<User>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+                options.SignIn.RequireConfirmedAccount = false;
+            })
+            .AddEntityFrameworkStores<AppDbContext>();
 
         return services;
     }
-    //
-    // /// <summary>
-    // ///
-    // /// </summary>
-    // /// <param name="services"></param>
-    // /// <returns></returns>
-    // public static IServiceCollection AddAspNetIdentity(this IServiceCollection services)
-    // {
-    //     services.AddIdentity<MegaventoryUser, IdentityRole>(options =>
-    //         {
-    //             options.User.RequireUniqueEmail = false;
-    //             options.User.AllowedUserNameCharacters =
-    //                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-:";
-    //         })
-    //         .AddEntityFrameworkStores<>()
-    //         .AddDefaultTokenProviders()
-    //         .AddUserManager<Identity.MegaventoryUserManager<Model.Admin.MegaventoryUser>>();
-    //
-    //     return services;
-    // } 
 }

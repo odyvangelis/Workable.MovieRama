@@ -29,7 +29,7 @@ public sealed class AppDbContext : IdentityDbContext<IdentityUser<Guid>, Identit
 
         modelBuilder.Entity<User>()
             .Property(x => x.FullName)
-            .HasMaxLength(50);
+            .HasMaxLength(Constants.Validation.MaxNameLength);
         
         modelBuilder.Entity<User>()
             .HasMany(x => x.Submitted)
@@ -48,10 +48,10 @@ public sealed class AppDbContext : IdentityDbContext<IdentityUser<Guid>, Identit
 
         modelBuilder.Entity<Movie>()
             .Property(x => x.Description)
-            .HasMaxLength(600);
+            .HasMaxLength(Constants.Validation.MaxMovieDesc);
         modelBuilder.Entity<Movie>()
             .Property(x => x.Title)
-            .HasMaxLength(100);
+            .HasMaxLength(Constants.Validation.MaxMovieTitle);
 
         modelBuilder.Entity<Movie>().ComplexProperty(x => x.AuditInfo, p =>
         {

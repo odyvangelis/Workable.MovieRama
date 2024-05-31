@@ -1,5 +1,6 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
+
 #nullable disable
 
 using System;
@@ -10,35 +11,31 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
-namespace MovieRama.WebApp.Areas.Identity.Pages.Account
+namespace MovieRama.WebApp.Areas.Identity.Pages.Account;
+
+using MovieRama.Entities;
+
+public class LogoutModel : PageModel
 {
-    using MovieRama.Entities;
+    private readonly SignInManager<User> _signInManager;
+    private readonly ILogger<LogoutModel> _logger;
 
-    public class LogoutModel : PageModel
+    public LogoutModel(SignInManager<User> signInManager, ILogger<LogoutModel> logger)
     {
-        private readonly SignInManager<User> _signInManager;
-        private readonly ILogger<LogoutModel> _logger;
+        _signInManager = signInManager;
+        _logger = logger;
+    }
 
-        public LogoutModel(SignInManager<User> signInManager, ILogger<LogoutModel> logger)
-        {
-            _signInManager = signInManager;
-            _logger = logger;
+    public async Task<IActionResult> OnPost(string returnUrl = null)
+    {
+        await _signInManager.SignOutAsync();
+        _logger.LogInformation("User logged out.");
+        if (returnUrl != null) {
+            return LocalRedirect(returnUrl);
         }
-
-        public async Task<IActionResult> OnPost(string returnUrl = null)
-        {
-            await _signInManager.SignOutAsync();
-            _logger.LogInformation("User logged out.");
-            if (returnUrl != null)
-            {
-                return LocalRedirect(returnUrl);
-            }
-            else
-            {
-                // This needs to be a redirect so that the browser performs a new
-                // request and the identity for the user gets updated.
-                return RedirectToPage();
-            }
-        }
+        
+        // This needs to be a redirect so that the browser performs a new
+        // request and the identity for the user gets updated.
+        return RedirectToPage();
     }
 }

@@ -56,6 +56,12 @@ public interface IRepository
     Task<int> CommitAsync();
 
     /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    Task<IResult<object>> TryCommitAsync();
+
+    /// <summary>
     ///
     /// </summary>
     /// <param name="sql"></param>

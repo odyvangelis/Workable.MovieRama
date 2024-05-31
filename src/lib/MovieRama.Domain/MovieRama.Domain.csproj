@@ -6,4 +6,8 @@
         <Nullable>disable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\MovieRama.Core\MovieRama.Core.csproj" />
+    </ItemGroup>
+
 </Project>

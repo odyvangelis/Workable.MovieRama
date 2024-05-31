@@ -1,12 +1,14 @@
 namespace MovieRama.Infrastructure.Data;
 
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-
+using System.Net;
 using Microsoft.EntityFrameworkCore;
 
 using MovieRama.Data;
+using MovieRama.Logging;
 
 /// <summary>
 ///
@@ -85,6 +87,18 @@ public abstract class EfRepository : IRepository
     public async Task<int> CommitAsync()
     {
         return await context_.SaveChangesAsync();
+    }
+
+    public async Task<IResult<object>> TryCommitAsync()
+    {
+        try {
+            await context_.SaveChangesAsync();
+            return Result.Success();
+        }
+        catch (Exception e) {
+            return Result.Error(
+                HttpStatusCode.InternalServerError, e.Message, EventId.RepositoryTryCommitFailed);
+        }
     }
 
     /// <summary>

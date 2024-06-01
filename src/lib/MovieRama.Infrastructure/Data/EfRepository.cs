@@ -113,40 +113,6 @@ public abstract class EfRepository : IRepository
     /// <summary>
     ///
     /// </summary>
-    /// <param name="sql"></param>
-    /// <param name="parameters"></param>
-    /// <typeparam name="T"></typeparam>
-    /// <returns></returns>
-    public IQueryable<T> ScalarSqlQuery<T>(string sql, params object[] parameters)
-    {
-        return context_.Database.SqlQueryRaw<T>(sql, parameters);
-    }
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="sql"></param>
-    /// <param name="parameters"></param>
-    /// <returns></returns>
-    public int RawSqlQuery(string sql, params object[] parameters)
-    {
-        return context_.Database.ExecuteSqlRaw(sql, parameters);
-    }
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="sql"></param>
-    /// <param name="parameters"></param>
-    /// <returns></returns>
-    public async Task<int> RawSqlQueryAsync(string sql, params object[] parameters)
-    {
-        return await context_.Database.ExecuteSqlRawAsync(sql, parameters);
-    }
-
-    /// <summary>
-    ///
-    /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
     public IQueryable<T> GetQueryable<T>() where T : class

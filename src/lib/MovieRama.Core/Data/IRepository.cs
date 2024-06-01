@@ -64,31 +64,6 @@ public interface IRepository
     /// <summary>
     ///
     /// </summary>
-    /// <param name="sql"></param>
-    /// <param name="parameters"></param>
-    /// <returns></returns>
-    int RawSqlQuery(string sql, params object[] parameters);
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="sql"></param>
-    /// <param name="parameters"></param>
-    /// <returns></returns>
-    Task<int> RawSqlQueryAsync(string sql, params object[] parameters);
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="sql"></param>
-    /// <param name="parameters"></param>
-    /// <typeparam name="T"></typeparam>
-    /// <returns></returns>
-    IQueryable<T> ScalarSqlQuery<T>(string sql, params object[] parameters);
-
-    /// <summary>
-    ///
-    /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
     IQueryable<T> GetQueryable<T>() where T : class;

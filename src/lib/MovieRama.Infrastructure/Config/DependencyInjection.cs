@@ -23,14 +23,12 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services,
         ApplicationConfig configuration)
     {
-        services.AddDbContext<AppDbContext>(opts =>
-        {
+        services.AddDbContext<AppDbContext>(opts => {
             opts.UseLazyLoadingProxies();
             opts.UseNpgsql(configuration.ConnectionStrings.Database);
         });
         services.AddScoped<IRepository, AppRepository>();
-        services.AddDefaultIdentity<User>(options =>
-            {
+        services.AddDefaultIdentity<User>(options => {
                 options.User.RequireUniqueEmail = true;
                 options.SignIn.RequireConfirmedAccount = false;
             })

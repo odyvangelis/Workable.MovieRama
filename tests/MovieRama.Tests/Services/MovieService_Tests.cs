@@ -191,6 +191,7 @@ public class MovieService_Tests : MovieRamaTestBase, IAsyncLifetime
 
     public async Task DisposeAsync()
     {
+        //will cascade delete movies and votes
         foreach (var usr in _generatedUsers) {
             await _userService.DeleteUserAsync(usr.Id);
         }

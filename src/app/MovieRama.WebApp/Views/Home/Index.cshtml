@@ -1,8 +1,71 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@using MovieRama.Entities
+@model IndexViewModel
+@inject UserManager<User> UserManager
+@inject SignInManager<User> SignInManager
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<h1>Welcome to MovieRama</h1>
+
+@{
+    var currentUser = default(MovieRama.Entities.User);
+    if (SignInManager.IsSignedIn(User)) {
+        currentUser = await UserManager.GetUserAsync(User);
+    }
+}
+<div class="container-lg align-self-center">
+    <span>Sort Order</span>
+    <div class="nav-pills">
+        <a class="nav-item" asp-area="" asp-controller="Home" asp-action="Index" asp-route-userId="@Model.FilterByUserId" asp-route-sortOrder="Date" >Date</a>
+        <a class="nav-item" asp-area="" asp-controller="Home" asp-action="Index" asp-route-userId="@Model.FilterByUserId" asp-route-sortOrder="Like" >Likes</a>
+        <a class="nav-item" asp-area="" asp-controller="Home" asp-action="Index" asp-route-userId="@Model.FilterByUserId" asp-route-sortOrder="Hate">Hates</a>
+    </div>
+
+    @foreach (var movie in Model.MovieList) {
+        <div class="container-fluid movie-info">
+            <h4 class="text-primary">@movie.Title</h4>
+            <p class="text-secondary">@movie.Description</p>
+            <hr/>
+            @if (currentUser is not null && movie.SubmitterId != currentUser.Id) {
+                var vote = MovieRama.Constants.VoteType.Remove;
+                if (!currentUser.Likes(movie.Id)) {
+                    <form asp-area="" asp-controller="Movie" asp-action="Vote" asp-route-id="@movie.Id" asp-route-type="Like" asp-route-filteredUser="@Model.FilterByUserId" asp-route-appliedOrder="@Model.SortOrder">
+                        <button formmethod="post" class="btn btn-link link-success">Likes: @movie.LikeCount</button>
+                    </form>
+                }
+                else {
+                    vote = MovieRama.Constants.VoteType.Like;
+                    <span>Likes: @movie.LikeCount</span>
+                }
+
+                if (!currentUser.Hates(movie.Id)) {
+                    <form asp-area="" asp-controller="Movie" asp-action="Vote" asp-route-id="@movie.Id" asp-route-type="Hate" asp-route-filteredUser="@Model.FilterByUserId" asp-route-appliedOrder="@Model.SortOrder">
+                        <button formmethod="post" class="btn btn-link link-danger">Hates: @movie.HateCount</button>
+                    </form>
+                }
+                else {
+                    vote = MovieRama.Constants.VoteType.Hate;
+                    <span>Hates: @movie.HateCount</span>
+                }
+
+                if (vote != MovieRama.Constants.VoteType.Remove) {
+                    <span>You @vote.ToString() this movie </span>
+                    <form asp-area="" asp-controller="Movie" asp-action="Vote" asp-route-id="@movie.Id" asp-route-type="Remove" asp-route-filteredUser="@Model.FilterByUserId" asp-route-appliedOrder="@Model.SortOrder">
+                        <button formmethod="post" class="btn btn-outline-warning">Remove Vote</button>
+                    </form>
+                }
+
+                <span>Submitted: @movie.DateSubmitted.ToLocalTime()</span>
+                <a class="link-primary" asp-area="" asp-controller="Home" asp-action="Index" asp-route-userId="@movie.SubmitterId" asp-route-sortOrder="@Model.SortOrder">By @movie.SubmitterName</a>
+            }
+            else {
+                <span>Likes: @movie.LikeCount</span>
+                <span>Hates: @movie.HateCount</span>
+                <span>Submitted: @movie.DateSubmitted.ToLocalTime()</span>
+                <a class="link-primary" asp-area="" asp-controller="Home" asp-action="Index" asp-route-userId="@movie.SubmitterId" asp-route-sortOrder="@Model.SortOrder">By @movie.SubmitterName</a>
+            }
+        </div>
+    }
 </div>

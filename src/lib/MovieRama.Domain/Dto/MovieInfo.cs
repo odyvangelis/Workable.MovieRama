@@ -10,6 +10,11 @@ public class MovieInfo
     /// <summary>
     /// 
     /// </summary>
+    public Guid Id { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
     public string Title { get; set; }
 
     /// <summary>

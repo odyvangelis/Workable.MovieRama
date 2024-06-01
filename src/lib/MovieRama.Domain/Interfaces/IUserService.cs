@@ -14,6 +14,13 @@ public interface IUserService
     /// <param name="userId"></param>
     /// <returns></returns>
     Task<IResult<Entities.User>> GetUserByIdAsync(Guid userId);
+    
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
+    Task<IResult<object>> DeleteUserAsync(Guid userId);
 
     /// <summary>
     ///

@@ -91,6 +91,7 @@ public class MovieService : IMovieService
         var movie = await _repo.GetQueryable<Entities.Movie>()
             .Where(x => x.Id == movieId)
             .Select(x => new Dto.MovieInfo {
+                Id = x.Id,
                 Title = x.Title,
                 Description = x.Description,
                 SubmitterId = x.SubmitterId,
@@ -113,7 +114,7 @@ public class MovieService : IMovieService
     /// </summary>
     /// <param name="options"></param>
     /// <returns></returns>
-    public async Task<IResult<ICollection<Dto.MovieInfo>>> ListMoviesAsync(Models.ListOptions options)
+    public async Task<IResult<List<Dto.MovieInfo>>> ListMoviesAsync(Models.ListOptions options)
     {
         var query  = _repo.GetQueryable<Entities.Movie>();
 
@@ -123,18 +124,22 @@ public class MovieService : IMovieService
 
         switch (options.SortOrder) {
             case Constants.SortOrder.Date:
-                query = query.OrderByDescending(x => x.AuditInfo.CreatedUtc);
+                query = query.OrderByDescending(x => x.AuditInfo.CreatedUtc)
+                    .ThenByDescending(x => x.LikedBy.Count);
                 break;
             case Constants.SortOrder.Like:
-                query = query.OrderByDescending(x => x.LikedBy.Count);
+                query = query.OrderByDescending(x => x.LikedBy.Count)
+                    .ThenByDescending(x => x.AuditInfo.CreatedUtc);
                 break;
             case Constants.SortOrder.Hate:
-                query = query.OrderByDescending(x => x.HatedBy.Count);
+                query = query.OrderByDescending(x => x.HatedBy.Count)
+                    .ThenByDescending(x => x.AuditInfo.CreatedUtc);
                 break;
         }
 
         var result = await query
             .Select(x => new Dto.MovieInfo {
+                Id = x.Id,
                 Title = x.Title,
                 Description = x.Description,
                 SubmitterId = x.SubmitterId,

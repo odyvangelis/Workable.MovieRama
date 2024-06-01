@@ -62,6 +62,27 @@ public class UserService : IUserService
     }
 
     /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
+    public async Task<IResult<object>> DeleteUserAsync(Guid userId)
+    {
+        var user = await GetUserByIdAsync(userId);
+        if (user.IsError) {
+            return Result.Error<object>(user);
+        }
+
+        var result = await _userManager.DeleteAsync(user.Data);
+        if (!result.Succeeded) {
+            return Result.Error(HttpStatusCode.InternalServerError,
+                "failed to delete user", EventId.InternalServerError);
+        }
+
+        return Result.Success();
+    }
+
+    /// <summary>
     ///
     /// </summary>
     /// <param name="options"></param>

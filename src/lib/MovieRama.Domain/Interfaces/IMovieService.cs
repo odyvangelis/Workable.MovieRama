@@ -24,5 +24,5 @@ public interface IMovieService
     /// </summary>
     /// <param name="options"></param>
     /// <returns></returns>
-    Task<IResult<ICollection<Dto.MovieInfo>>> ListMoviesAsync(Models.ListOptions options);
+    Task<IResult<List<Dto.MovieInfo>>> ListMoviesAsync(Models.ListOptions options);
 }

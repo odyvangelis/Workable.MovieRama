@@ -1,5 +1,6 @@
 namespace MovieRama.Configuration;
 
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using MovieRama.Domain.Config;
@@ -16,10 +17,12 @@ public static class DependencyInjection
     /// <param name="services"></param>
     /// <param name="config"></param>
     /// <returns></returns>
-    public static IServiceCollection AddMovieRama(this IServiceCollection services, Config.ApplicationConfig config)
+    public static IServiceCollection AddMovieRama(this IServiceCollection services, IConfiguration config)
     {
+        var appConfig = config.Get<MovieRama.Config.ApplicationConfig>();
         return services
+            .AddSingleton(appConfig)
             .AddDomain()
-            .AddInfrastructure(config);
+            .AddInfrastructure(appConfig);
     }
 }

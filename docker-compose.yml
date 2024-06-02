@@ -26,7 +26,7 @@ services:
       - "5195:8080"
     build:
       context: .
-      dockerfile: src/app/MovieRama.WebApp/Dockerfile
+      dockerfile: ./Dockerfile
 
 volumes:
   redis:

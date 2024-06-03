@@ -4,7 +4,7 @@
 
 ## Implementation notes
 
-- .NET 8 backend using the ASPNET MVC / Razor pages framework for the UI. 
+- .NET 8 backend using the ASPNET MVC / Razor pages framework for the UI. The ORM used is Entity Framework Core with a code-first approach. Entity relationships are defined inside the AppDbContext class.
 - PostgreSQL is used as the backing store, along with a Redis distributed cache (although, since only one application consumes the APIs, .net memory cache could also be used).  
 - Solution structure follows the Onion/Clean multi-layered architecture with dependencies flowing in towards the MovieRama.Core lib.
 - MovieRama.Tests project contains integration tests that cover domain logic. 

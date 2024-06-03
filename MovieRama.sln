@@ -4,8 +4,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.yml = docker-compose.yml
 		init_db.sh = init_db.sh
-		Dockerfile = Dockerfile
-		.dockerignore = .dockerignore
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{05984D0F-00FF-402A-AB34-C2BBF78FE100}"

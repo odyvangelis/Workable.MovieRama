@@ -1,6 +1,8 @@
 ﻿version: "3.9"
 services:
   redis:
+    networks:
+      - movierama_net
     image: "redis:alpine"
     restart: unless-stopped
     container_name: redis_movierama
@@ -9,6 +11,8 @@ services:
     volumes:
       - redis:/data
   pgsql:
+    networks:
+      - movierama_net
     image: postgres
     restart: unless-stopped
     container_name: pgsql_movierama
@@ -20,14 +24,23 @@ services:
     ports:
       - "5432:5432"
   movierama.webapp:
+    networks:
+      - movierama_net
     image: movierama.webapp
     restart: unless-stopped
     ports:
       - "5195:8080"
+    depends_on:
+      - redis
+      - pgsql
     build:
       context: .
-      dockerfile: ./Dockerfile
+      dockerfile: ./src/app/MovieRama.WebApp/Dockerfile
 
 volumes:
   redis:
   pgdata:
+    
+networks:
+  movierama_net:
+    driver: bridge

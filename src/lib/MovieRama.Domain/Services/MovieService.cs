@@ -8,9 +8,9 @@ using System.Collections.Generic;
 
 using Microsoft.EntityFrameworkCore;
 
-using MovieRama.Core;
 using MovieRama.Data;
 using MovieRama.Logging;
+using MovieRama.Extensions;
 
 /// <summary>
 ///
@@ -23,19 +23,26 @@ public class MovieService : IMovieService
     private readonly IRepository _repo;
 
     /// <summary>
+    /// 
+    /// </summary>
+    private readonly ICacheService _cache;
+
+    /// <summary>
     ///
     /// </summary>
     private readonly IUserService _users;
 
     /// <summary>
-    ///
+    /// 
     /// </summary>
     /// <param name="users"></param>
     /// <param name="repo"></param>
-    public MovieService(IUserService users, IRepository repo)
+    /// <param name="cache"></param>
+    public MovieService(IUserService users, IRepository repo, ICacheService cache)
     {
         _users = users;
         _repo = repo;
+        _cache = cache;
     }
 
     /// <summary>
@@ -74,11 +81,14 @@ public class MovieService : IMovieService
 
         _repo.Add(movie);
         var cresult = await _repo.TryCommitAsync();
+        if (cresult.IsError) {
+            return Result.Error<Entities.Movie>(HttpStatusCode.InternalServerError,
+                "failed to submit movie", EventId.MovieServiceSubmitMovieFailed);
+        }
+
+        await _cache.RemoveAsync(Caching.Key.ListMovieInfo);
         
-        return cresult.IsError
-            ? Result.Error<Entities.Movie>(HttpStatusCode.InternalServerError,
-                "failed to submit movie", EventId.MovieServiceSubmitMovieFailed)
-            : Result.Success(movie);
+        return Result.Success(movie);
     }
 
     /// <summary>
@@ -116,7 +126,29 @@ public class MovieService : IMovieService
     /// <returns></returns>
     public async Task<IResult<List<Dto.MovieInfo>>> ListMoviesAsync(Models.ListOptions options)
     {
-        var query  = _repo.GetQueryable<Entities.Movie>();
+        var query = default(IQueryable<Dto.MovieInfo>);
+        
+        var gresult = await _cache.GetAsync<List<Dto.MovieInfo>>(Caching.Key.ListMovieInfo);
+        if (gresult.IsSuccess) {
+            query = gresult.Data.AsQueryable();
+        }
+        else {
+            var data = await _repo.GetQueryable<Entities.Movie>()
+                .Select(x => new Dto.MovieInfo {
+                    Id = x.Id,
+                    Title = x.Title,
+                    Description = x.Description,
+                    SubmitterId = x.SubmitterId,
+                    LikeCount = x.LikedBy.Count,
+                    HateCount = x.HatedBy.Count,
+                    SubmitterName = x.Submitter.FullName,
+                    DateSubmitted = x.AuditInfo.CreatedUtc
+                }).ToListAsync();
+
+            await _cache.SetAlwaysAsync(Caching.Key.ListMovieInfo, data, TimeSpan.FromDays(1));
+
+            query = data.AsQueryable();
+        }
 
         if (options.SubmitterId is not null) {
             query = query.Where(x => x.SubmitterId == options.SubmitterId.Value);
@@ -124,31 +156,20 @@ public class MovieService : IMovieService
 
         switch (options.SortOrder) {
             case Constants.SortOrder.Date:
-                query = query.OrderByDescending(x => x.AuditInfo.CreatedUtc)
-                    .ThenByDescending(x => x.LikedBy.Count);
+                query = query.OrderByDescending(x => x.DateSubmitted)
+                    .ThenByDescending(x => x.LikeCount);
                 break;
             case Constants.SortOrder.Like:
-                query = query.OrderByDescending(x => x.LikedBy.Count)
-                    .ThenByDescending(x => x.AuditInfo.CreatedUtc);
+                query = query.OrderByDescending(x => x.LikeCount)
+                    .ThenByDescending(x => x.DateSubmitted);
                 break;
             case Constants.SortOrder.Hate:
-                query = query.OrderByDescending(x => x.HatedBy.Count)
-                    .ThenByDescending(x => x.AuditInfo.CreatedUtc);
+                query = query.OrderByDescending(x => x.HateCount)
+                    .ThenByDescending(x => x.DateSubmitted);
                 break;
         }
 
-        var result = await query
-            .Select(x => new Dto.MovieInfo {
-                Id = x.Id,
-                Title = x.Title,
-                Description = x.Description,
-                SubmitterId = x.SubmitterId,
-                LikeCount = x.LikedBy.Count,
-                HateCount = x.HatedBy.Count,
-                SubmitterName = x.Submitter.FullName,
-                DateSubmitted = x.AuditInfo.CreatedUtc
-            })
-            .ToListAsync();
+        var result = query.ToList();
 
         return Result.Success(result);
     }
@@ -202,10 +223,13 @@ public class MovieService : IMovieService
 
         movie.AuditInfo.Update();
         var cresult = await _repo.TryCommitAsync();
+        if (cresult.IsError) {
+            return Result.Error(HttpStatusCode.InternalServerError,
+                "failed to submit vote", EventId.MovieServiceSubmitVoteFailed);
+        }
 
-        return cresult.IsError
-            ? Result.Error(HttpStatusCode.InternalServerError,
-                "failed to submit vote", EventId.MovieServiceSubmitVoteFailed)
-            : Result.Success();
+        await _cache.RemoveAsync(Caching.Key.ListMovieInfo);
+
+        return  Result.Success();
     }
 }

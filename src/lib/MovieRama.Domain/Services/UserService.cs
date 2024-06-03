@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-using MovieRama.Core;
 using MovieRama.Data;
 using MovieRama.Logging;
 using MovieRama.Entities;
+using MovieRama.Extensions;
 
 /// <summary>
 ///

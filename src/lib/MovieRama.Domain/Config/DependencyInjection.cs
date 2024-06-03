@@ -18,6 +18,7 @@ public static class DependencyInjection
     {
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IMovieService, MovieService>();
+        services.AddScoped<ICacheService, CacheService>();
         return services;
     }
 }

@@ -3,8 +3,8 @@ namespace MovieRama;
 using System;
 using System.Net;
 
-using MovieRama.Core;
 using MovieRama.Logging;
+using MovieRama.Extensions;
 
 /// <summary>
 ///

@@ -11,7 +11,7 @@ public class ListOptions
     /// 
     /// </summary>
     public Guid? SubmitterId { get; set; }
-    
+
     /// <summary>
     /// 
     /// </summary>

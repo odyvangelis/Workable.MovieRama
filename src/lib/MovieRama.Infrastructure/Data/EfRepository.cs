@@ -81,7 +81,6 @@ public abstract class EfRepository : IRepository
     }
 
     /// <summary>
-    /// xxx(ov) todo - trycatch
     /// </summary>
     /// <returns></returns>
     public async Task<int> CommitAsync()

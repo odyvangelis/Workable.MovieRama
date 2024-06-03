@@ -53,12 +53,13 @@ public sealed class AppDbContext : IdentityDbContext<IdentityUser<Guid>, Identit
             .Property(x => x.Title)
             .HasMaxLength(Constants.Validation.MaxMovieTitle);
 
-        modelBuilder.Entity<Movie>().ComplexProperty(x => x.AuditInfo, p =>
-        {
-            p.Property(a => a.CreatedUtc).HasColumnName("CreatedUtc");
-            p.Property(a => a.UpdatedUtc).HasColumnName("UpdatedUtc");
-            p.IsRequired();
-        });
+        modelBuilder.Entity<Movie>().ComplexProperty(
+            x => x.AuditInfo,
+            p => {
+                p.Property(a => a.CreatedUtc).HasColumnName("CreatedUtc");
+                p.Property(a => a.UpdatedUtc).HasColumnName("UpdatedUtc");
+                p.IsRequired();
+            });
     }
 
 }

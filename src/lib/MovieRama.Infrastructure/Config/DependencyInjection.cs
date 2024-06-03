@@ -2,12 +2,13 @@ namespace MovieRama.Infrastructure.Config;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-
+using MovieRama.Caching;
 using MovieRama.Data;
 using MovieRama.Config;
 using MovieRama.Entities;
+using MovieRama.Infrastructure.Caching;
 using MovieRama.Infrastructure.Data;
-
+using StackExchange.Redis;
 
 /// <summary>
 /// 
@@ -34,6 +35,18 @@ public static class DependencyInjection
             })
             .AddEntityFrameworkStores<AppDbContext>();
 
+        var connectionString = configuration.ConnectionStrings.Redis;
+
+        services.AddSingleton<IConnectionMultiplexer>(
+            ConnectionMultiplexer.Connect(connectionString));
+
+        services.AddScoped<ICache>(x => {
+            var database = x.GetRequiredService<IConnectionMultiplexer>()
+                .GetDatabase();
+
+            return new RedisCache(database);
+        });
+        
         return services;
     }
 }

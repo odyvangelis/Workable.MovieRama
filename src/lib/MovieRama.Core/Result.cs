@@ -98,25 +98,6 @@ public class Result<T> : IResult<T>
     {
         return new Result<T>(errorCode, errorMessage, eventId);
     }
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="data"></param>
-    /// <returns></returns>
-    public static implicit operator Result<T>(T data) => Success(data);
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="errorResult"></param>
-    /// <typeparam name="Y"></typeparam>
-    /// <returns></returns>
-    public static Result<T> Error<Y>(IResult<Y> errorResult)
-    {
-        return Error(errorResult.ErrorCode,
-            errorResult.ErrorMessage, errorResult.EventId);
-    }
 }
 
 /// <summary>
@@ -152,17 +133,6 @@ public static class Result
     public static IResult<T> Error<T>(HttpStatusCode errorCode, string errorMessage,
         EventId eventId = EventId.GenericError) =>
             Result<T>.Error(errorCode, errorMessage, eventId);
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="errorMessage"></param>
-    /// <param name="eventId"></param>
-    /// <typeparam name="T"></typeparam>
-    /// <returns></returns>
-    public static IResult<T> BadRequest<T>(string errorMessage,
-        EventId eventId = EventId.GenericError) =>
-            Result<T>.Error(HttpStatusCode.BadRequest, errorMessage, eventId);
 
     /// <summary>
     ///

@@ -18,9 +18,9 @@
 <div class="container-lg align-self-center">
     <span>Sort Order</span>
     <div class="nav-pills">
-        <a class="nav-item" asp-area="" asp-controller="Home" asp-action="Index" asp-route-userId="@Model.FilterByUserId" asp-route-sortOrder="Date" >Date</a>
-        <a class="nav-item" asp-area="" asp-controller="Home" asp-action="Index" asp-route-userId="@Model.FilterByUserId" asp-route-sortOrder="Like" >Likes</a>
-        <a class="nav-item" asp-area="" asp-controller="Home" asp-action="Index" asp-route-userId="@Model.FilterByUserId" asp-route-sortOrder="Hate">Hates</a>
+        <a class="nav-item" asp-area="" asp-controller="Movie" asp-action="Index" asp-route-userId="@Model.FilterByUserId" asp-route-sortOrder="Date" >Date</a>
+        <a class="nav-item" asp-area="" asp-controller="Movie" asp-action="Index" asp-route-userId="@Model.FilterByUserId" asp-route-sortOrder="Like" >Likes</a>
+        <a class="nav-item" asp-area="" asp-controller="Movie" asp-action="Index" asp-route-userId="@Model.FilterByUserId" asp-route-sortOrder="Hate">Hates</a>
     </div>
 
     @foreach (var movie in Model.MovieList) {
@@ -58,13 +58,13 @@
                 }
 
                 <span>Submitted: @movie.DateSubmitted.ToLocalTime()</span>
-                <a class="link-primary" asp-area="" asp-controller="Home" asp-action="Index" asp-route-userId="@movie.SubmitterId" asp-route-sortOrder="@Model.SortOrder">By @movie.SubmitterName</a>
+                <a class="link-primary" asp-area="" asp-controller="Movie" asp-action="Index" asp-route-userId="@movie.SubmitterId" asp-route-sortOrder="@Model.SortOrder">By @movie.SubmitterName</a>
             }
             else {
                 <span>Likes: @movie.LikeCount</span>
                 <span>Hates: @movie.HateCount</span>
                 <span>Submitted: @movie.DateSubmitted.ToLocalTime()</span>
-                <a class="link-primary" asp-area="" asp-controller="Home" asp-action="Index" asp-route-userId="@movie.SubmitterId" asp-route-sortOrder="@Model.SortOrder">By @movie.SubmitterName</a>
+                <a class="link-primary" asp-area="" asp-controller="Movie" asp-action="Index" asp-route-userId="@movie.SubmitterId" asp-route-sortOrder="@Model.SortOrder">By @movie.SubmitterName</a>
             }
         </div>
     }

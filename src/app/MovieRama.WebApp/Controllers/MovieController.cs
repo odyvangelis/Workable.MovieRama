@@ -3,13 +3,15 @@ using Microsoft.AspNetCore.Mvc;
 namespace MovieRama.WebApp.Controllers;
 
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.Extensions;
+
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+
 using MovieRama.Domain;
-using MovieRama.Domain.Models;
 using MovieRama.Entities;
+using MovieRama.Domain.Models;
 using MovieRama.WebApp.Models;
 
 [Authorize]
@@ -29,8 +31,32 @@ public class MovieController : Controller
         _userManager = userManager;
     }
     
-    // GET
+    [HttpGet]
     public IActionResult Submit()
+    {
+        return View();
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> Index([FromQuery] Guid? userId, [FromQuery] Constants.SortOrder? sortOrder)
+    {
+        var mresult = await _movieService.ListMoviesAsync(new ListOptions {
+            SubmitterId = userId,
+            SortOrder = sortOrder ?? Constants.SortOrder.Date
+        });
+
+        if (mresult.IsError) {
+            return View(new IndexViewModel());
+        }
+
+        return View(new IndexViewModel {
+            FilterByUserId = userId,
+            MovieList = mresult.Data,
+            SortOrder = sortOrder ?? Constants.SortOrder.Date
+        });
+    }
+
+    public IActionResult Privacy()
     {
         return View();
     }
@@ -39,7 +65,7 @@ public class MovieController : Controller
     public async Task<IActionResult> Vote(Guid id, [FromQuery] Constants.VoteType type,
         [FromQuery] Guid? filteredUser, [FromQuery] Constants.SortOrder? appliedOrder)
     {
-        var redirectUrl = "~/Home/Index/?";
+        var redirectUrl = "~/Movie/Index/?";
 
         if (filteredUser is not null) {
             redirectUrl += $"userId={filteredUser.Value}&";
@@ -85,9 +111,15 @@ public class MovieController : Controller
             });
 
         if (result.IsSuccess) {
-            return Redirect($"~/Home/Index");
+            return Redirect($"~/Movie/Index");
         }
 
         return View(model);
+    }
+
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public IActionResult Error()
+    {
+        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }

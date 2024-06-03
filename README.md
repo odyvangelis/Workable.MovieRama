@@ -7,7 +7,7 @@
 - .NET 8 backend using the ASPNET MVC / Razor pages framework for the UI. 
 - PostgreSQL is used as the backing store, along with a Redis distributed cache (although, since only one application consumes the APIs, .net memory cache could also be used).  
 - Solution structure follows the Onion/Clean multi-layered architecture with dependencies flowing in towards the MovieRama.Core lib.
-- MovieRama.Tests project contains integration tests the cover domain logic. 
+- MovieRama.Tests project contains integration tests that cover domain logic. 
 
 ## Installation
 Docker is required to run the solution.  

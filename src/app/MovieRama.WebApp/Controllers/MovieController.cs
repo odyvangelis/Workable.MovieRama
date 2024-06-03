@@ -38,6 +38,7 @@ public class MovieController : Controller
     }
     
     [HttpGet]
+    [AllowAnonymous]
     public async Task<IActionResult> Index([FromQuery] Guid? userId, [FromQuery] Constants.SortOrder? sortOrder)
     {
         var mresult = await _movieService.ListMoviesAsync(new ListOptions {
@@ -56,6 +57,7 @@ public class MovieController : Controller
         });
     }
 
+    [AllowAnonymous]
     public IActionResult Privacy()
     {
         return View();
